@@ -1,11 +1,5 @@
-# AlpineLinux with a glibc-2.26-r0 and Oracle Java 8
 FROM alpine:3.6
 
-MAINTAINER Anastas Dancha <anapsix@random.io>
-# thanks to Vladimir Krivosheev <develar@gmail.com> aka @develar for smaller image
-# and Victor Palma <palma.victor@gmail.com> aka @devx for pointing it out
-
-# Java Version and other ENV
 ENV JAVA_VERSION_MAJOR=8 \
     JAVA_VERSION_MINOR=152 \
     JAVA_VERSION_BUILD=16 \
@@ -17,7 +11,6 @@ ENV JAVA_VERSION_MAJOR=8 \
     GLIBC_VERSION=2.26-r0 \
     LANG=C.UTF-8
 
-# do all in one step
 RUN set -ex && \
     [[ ${JAVA_VERSION_MAJOR} != 7 ]] || ( echo >&2 'Oracle no longer publishes JAVA7 packages' && exit 1 ) && \
     apk upgrade --update && \
@@ -46,7 +39,8 @@ RUN set -ex && \
     sed -i s/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=10/ $JAVA_HOME/jre/lib/security/java.security && \
     apk del curl glibc-i18n && \
     echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
-# EOF
+
+# Até aqui foi baseado o template anapsix em https://github.com/anapsix/docker-alpine-java
 
 LABEL maintainer="tarcisio@softbox.com.br"
 
