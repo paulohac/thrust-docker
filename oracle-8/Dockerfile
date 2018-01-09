@@ -48,6 +48,8 @@ RUN apk upgrade --update && \
     apk add --no-cache bash git openssh && \
     mkdir -p /opt && cd /opt && \
     git clone https://github.com/Thrustjs/thrust.git && \
+    cd /opt/thrust && \
+    ./gradlew jar && \
     mkdir -p /app
 
 WORKDIR /app
